@@ -28,14 +28,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.sizeToFit()
 
-        let goBackButton = UIBarButtonItem(title: "Back", style: .plain, target: webView, action: #selector(webView.goBack))
-        let goForwardButton = UIBarButtonItem(title: "Forward", style: .plain, target: webView, action: #selector(webView.goForward))
-        let progressButton = UIBarButtonItem(customView: progressView)
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
-        
-        toolbarItems = [goBackButton, goForwardButton, progressButton, spacer, refresh]
-        navigationController?.isToolbarHidden = false
+        fillAndShowToolbar()
 
         let url = URL(string: "https://" + websites[0])!
         webView.load(URLRequest(url: url))
@@ -62,6 +55,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
     private func openPage(action: UIAlertAction) {
         let url = URL(string: "https://" + action.title!)!
         webView.load(URLRequest(url: url))
+    }
+    
+    private func fillAndShowToolbar() {
+        let goBackButton = UIBarButtonItem(title: "Back", style: .plain, target: webView, action: #selector(webView.goBack))
+        let goForwardButton = UIBarButtonItem(title: "Forward", style: .plain, target: webView, action: #selector(webView.goForward))
+        let progressButton = UIBarButtonItem(customView: progressView)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        
+        toolbarItems = [goBackButton, goForwardButton, progressButton, spacer, refresh]
+        navigationController?.isToolbarHidden = false
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
