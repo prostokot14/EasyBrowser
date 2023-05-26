@@ -10,7 +10,7 @@ import WebKit
 class ViewController: UIViewController, WKNavigationDelegate {
     private var webView: WKWebView!
     private var progressView: UIProgressView!
-    private var websites = ["apple.com", "hackingwithswift.com"]
+    private var websites = ["kodeco.com", "hackingwithswift.com"]
     
     override func loadView() {
         webView = WKWebView()
@@ -54,13 +54,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
-        // only for iPad
-        if #available(iOS 16.0, *) {
-            alertController.popoverPresentationController?.sourceItem = navigationItem.rightBarButtonItem
-        } else {
-            alertController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-        }
-        
         present(alertController, animated: true)
     }
     
@@ -94,7 +87,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         }
-        
+
+        let alertController = UIAlertController(title: "Oops!", message: "Sorry, you can't go there", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alertController, animated: true)
+
         decisionHandler(.cancel)
     }
 }
