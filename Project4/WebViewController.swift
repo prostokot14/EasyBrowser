@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WebViewController.swift
 //  Project4
 //
 //  Created by Антон Кашников on 23.05.2023.
@@ -7,10 +7,11 @@
 
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate {
     private var webView: WKWebView!
     private var progressView: UIProgressView!
-    private var websites = ["kodeco.com", "hackingwithswift.com"]
+    var availableWebsites = ["kodeco.com", "hackingwithswift.com"]
+    var selectedWebSite: String?
     
     override func loadView() {
         webView = WKWebView()
@@ -30,7 +31,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
         fillAndShowToolbar()
 
-        let url = URL(string: "https://" + websites[0])!
+        let url = URL(string: "https://" + (selectedWebSite ?? ""))!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
@@ -44,7 +45,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc private func openTapped() {
         let alertController = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet)
         
-        for website in websites {
+        for website in availableWebsites {
             alertController.addAction(UIAlertAction(title: website, style: .default, handler: openPage(action:)))
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -76,7 +77,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         if #available(iOS 16.0, *) {
             if let host = navigationAction.request.url?.host() {
-                for website in websites {
+                for website in availableWebsites {
                     if host.contains(website) {
                         decisionHandler(.allow)
                         return
@@ -85,7 +86,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
         } else {
             if let host = navigationAction.request.url?.host {
-                for website in websites {
+                for website in availableWebsites {
                     if host.contains(website) {
                         decisionHandler(.allow)
                         return
