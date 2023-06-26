@@ -8,15 +8,24 @@
 import UIKit
 
 final class TableViewController: UITableViewController {
+    // MARK: - Private Properties
     private var websites = ["kodeco.com", "hackingwithswift.com"]
-    
+
+    // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Websites"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
+}
+
+// MARK: - UITableViewController
+extension TableViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        websites.count
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WebSite", for: indexPath)
         
@@ -32,14 +41,10 @@ final class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let viewController = storyboard?.instantiateViewController(identifier: "WebView") as? WebViewController {
-            viewController.selectedWebSite = websites[indexPath.row]
-            viewController.availableWebsites = websites
-            navigationController?.pushViewController(viewController, animated: true)
+        if let webViewViewController = storyboard?.instantiateViewController(identifier: "WebView") as? WebViewController {
+            webViewViewController.selectedWebSite = websites[indexPath.row]
+            webViewViewController.availableWebsites = websites
+            navigationController?.pushViewController(webViewViewController, animated: true)
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        websites.count
     }
 }
